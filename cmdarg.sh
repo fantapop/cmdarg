@@ -420,6 +420,8 @@ function cmdarg_dump
             echo "${repr} => ${cmdarg_cfg[$key]}"
         fi
     done
+
+    echo "${cmdarg_argv[@]}"
 }
 
 function cmdarg_purge
