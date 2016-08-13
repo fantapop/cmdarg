@@ -1,7 +1,7 @@
 #!/usr/bin/bash4
 
-declare -a cfg_array
-declare -A cfg_hash
+declare -a cfg_array=()
+declare -A cfg_hash=()
 
 source ./cmdarg.sh
 
