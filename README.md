@@ -25,11 +25,12 @@ From RPM
 Usage
 =====
 
-cmdarg is a helper library I wrote for bash scripts because, at current, option parsing in bash (-foo bar, etc) is really hard, lots harder than it should be, given bash's target audience. So here's my solution. There are 4 functions you will care about:
+cmdarg is a helper library I wrote for bash scripts because, at current, option parsing in bash (-foo bar, etc) is really hard, lots harder than it should be, given bash's target audience. So here's my solution. There are 5 functions you will care about:
 
     cmdarg
     cmdarg_info
     cmdarg_parse
+    cmdarg_parse_to_positionals
     cmdarg_usage
 
 TL;DR
@@ -212,6 +213,15 @@ Similarly, cmdarg understands '--' which means "stop processing arguments, the r
     myscript.sh -x 0 --longopt thingy -- --some-thing-with-dashes
 
 ... Cmdarg would parse -x and --longopt as expected, and then ${cmdarg_argv[0]} would hold "--some-thing-with-dashes", for your program to do with what it will.
+
+In a related note, the cmdarg_parse_to_positionals method has been added which
+assumes that once you hit the first positional arguments, all other arguments
+that follow will also be positional even if they look like flags which are
+otherwise accepted before the positional arguments start.
+
+    myscript.sh -x 123 positional1 positional2 -x 123
+
+... Cmdarg would parse x = 123 and set "${cmdarg_argv[@]}" would hold "positional1" "positional2" "-x" "123"
 
 Helpers
 =======

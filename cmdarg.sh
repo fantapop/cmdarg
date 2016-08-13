@@ -277,6 +277,12 @@ function cmdarg_check_empty
     esac
 }
 
+function cmdarg_parse_to_positionals
+{
+   CMDARG_STOP_AT_POSITIONAL=1
+   cmdarg_parse "$@"
+}
+
 function cmdarg_parse
 {
     # cmdarg_parse "$@"
@@ -285,6 +291,7 @@ function cmdarg_parse
     # This function only knows about the arguments that you previously called 'cmdarg' for.
     local failed=0
     local missing=""
+    local hit_positional=0
 
     local parsing=0
     while [[ $# -ne 0 ]]; do
@@ -302,7 +309,10 @@ function cmdarg_parse
             is_equals_arg=0
         fi
 
-        if [[ "$fullopt" == "--" ]] && [[ $parsing -eq 0 ]]; then
+        if [[ "${CMDARG_STOP_AT_POSITIONAL:-}" != "" ]]  && [[ $hit_positional == 1 ]]; then
+            cmdarg_argv+=("$fullopt")
+            continue
+        elif [[ "$fullopt" == "--" ]] && [[ $parsing -eq 0 ]]; then
             cmdarg_argv+=($@)
             break
         elif [[ "${fullopt:0:2}" == "--" ]]; then
@@ -312,6 +322,7 @@ function cmdarg_parse
             opt=${fullopt:1}
             longopt=${CMDARG[$opt]}
         elif [[ "${fullopt:0:1}" != "-" ]]; then
+            hit_positional=1
             cmdarg_argv+=("$fullopt")
             continue
         else
