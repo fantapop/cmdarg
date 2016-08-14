@@ -197,7 +197,7 @@ You can use the cmdarg function to accept arrays and hashes from the command lin
     echo ${hash['key']}
     echo ${hash['other_key']}
 
-The long option names in this form must equal the name of a previously declared array or hash, appropriately. Cmdarg populates that variable directly with options for these arguments. Remember, arrays and hashes must be declared beforehand and must have the same name as the long argument given to their cmdarg option.
+The long option names in this form must equal the name of a previously declared array or hash, with the exception that all dashes in command arguments are expected to be underscores in the variables they match up with.. Cmdarg populates that variable directly with options for these arguments. Remember, arrays and hashes must be declared beforehand and must have the same name as the long argument given to their cmdarg option.
 
 Positional arguments and --
 ===========================

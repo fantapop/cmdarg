@@ -31,7 +31,10 @@ function cmdarg
     #             should be the name of a function. This may be enforced in future versions
     #             of the library.
     local shortopt=${1:0:1}
-    local key="$2"
+    # make dashes same as underscores.  This allows us to correctly have array
+    # and hash variables with dashes in them but access the variables using
+    # underscores
+    local key="${2/-/_}"
     if [[ "$shortopt" == "h" ]]; then
         echo "-h is reserved for cmdarg usage" >&2
         ${CMDARG_ERROR_BEHAVIOR} 1
@@ -75,8 +78,8 @@ function cmdarg
         cmdarg_cfg[$key]=false
     fi
 
-    CMDARG["$shortopt"]=$2
-    CMDARG_REV["$2"]=$shortopt
+    CMDARG["$shortopt"]=$key
+    CMDARG_REV["$key"]=$shortopt
     CMDARG_DESC["$shortopt"]=$3
     CMDARG_DEFAULT["$shortopt"]=${4:-}
     if [[ ${CMDARG_FLAGS[$shortopt]} -eq $CMDARG_FLAG_REQARG ]] && [[ "${4:-}" == "" ]]; then
@@ -84,7 +87,7 @@ function cmdarg
     else
         CMDARG_OPTIONAL+=($shortopt)
     fi
-    cmdarg_cfg["$2"]="${4:-}"
+    cmdarg_cfg["$key"]="${4:-}"
     local validatorfunc
     validatorfunc=${5:-}
     if [[ "$validatorfunc" != "" ]] && [[ "$(declare -F $validatorfunc)" == "" ]]; then
@@ -126,7 +129,7 @@ function cmdarg_describe
 function cmdarg_describe_default
 {
     set -u
-    local longopt=$1
+    local longopt=${1/_/-}
     local opt=$2
     local argtype=$3
     local default="$4"
@@ -317,7 +320,7 @@ function cmdarg_parse
             break
         elif [[ "${fullopt:0:2}" == "--" ]]; then
             longopt=${fullopt:2}
-            opt=${CMDARG_REV[$longopt]}
+            opt=${CMDARG_REV[${longopt/-/_}]}
         elif [[ "${fullopt:0:1}" == "-" ]] && [[ ${#fullopt} -eq 2 ]]; then
             opt=${fullopt:1}
             longopt=${CMDARG[$opt]}
@@ -363,7 +366,7 @@ local key
 for key in "${CMDARG_REQUIRED[@]}"
 do
     if [[ "$(cmdarg_check_empty $key)" == "" ]]; then
-        missing="${missing} -${key}"
+        missing="${missing} -${key/_/-}"
         failed=$((failed + 1))
     fi
 done

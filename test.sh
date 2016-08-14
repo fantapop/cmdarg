@@ -7,8 +7,8 @@ source ./cmdarg.sh
 
 cmdarg 'b' 'boolean' 'A boolean argument'
 cmdarg 's:' 'string' 'A string argument'
-cmdarg 'a:[]' 'cfg_array' 'An array argument'
-cmdarg 'H:{}' 'cfg_hash' 'A hash argument'
+cmdarg 'a:[]' 'cfg-array' 'An array argument'
+cmdarg 'H:{}' 'cfg-hash' 'A hash argument'
 
 cmdarg_parse "$@"
 
