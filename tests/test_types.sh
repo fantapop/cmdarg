@@ -28,14 +28,14 @@ function shunittest_array_undefined()
     cmdarg_purge
     err=$(cmdarg 'a:[]' 'missingarray' 2>&1)
     if [[ $? -eq 0 ]]; then
-	echo "cmdarg fails to throw an error for undefined array variables"
+        echo "cmdarg fails to throw an error for undefined array variables"
     else
-	echo "$err" | grep "Array variable missingarray does not exist" >/dev/null
-	if [[ $? -ne 0 ]]; then
-	    echo "cmdarg does not report errors on stderr for undefined arrays"
-	    echo "$err"
-	    return 1
-	fi
+        echo "$err" | grep "Array variable missingarray does not exist" >/dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "cmdarg does not report errors on stderr for undefined arrays"
+            echo "$err"
+            return 1
+        fi
     fi
     return 0
 }
@@ -47,9 +47,9 @@ function shunittest_array_values
     cmdarg 'a:[]' 'array'
     cmdarg_parse -a a -a b -a c
     if [[ "${array[@]}" != "a b c" ]]; then
-    	echo "Array does not contain expected arguments"
-    	cmdarg_dump >&2
-    	return 1
+        echo "Array does not contain expected arguments"
+        cmdarg_dump >&2
+        return 1
     fi
     return $?
 }
@@ -61,14 +61,14 @@ function shunittest_hash_undefined()
     cmdarg_purge
     err=$(cmdarg 'a:{}' 'missingarray' 2>&1)
     if [[ $? -eq 0 ]]; then
-	echo "cmdarg fails to throw an error for undefined hash variables"
+        echo "cmdarg fails to throw an error for undefined hash variables"
     else
-	echo "$err" | grep "Hash variable missingarray does not exist" >/dev/null
-	if [[ $? -ne 0 ]]; then
-	    echo "cmdarg does not report errors on stderr for undefined hashes"
-	    echo "$err"
-	    return 1
-	fi
+        echo "$err" | grep "Hash variable missingarray does not exist" >/dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "cmdarg does not report errors on stderr for undefined hashes"
+            echo "$err"
+            return 1
+        fi
     fi
     return 0
 }
@@ -83,13 +83,13 @@ function shunittest_hash_values
     cmp=""
     for k in a b c
     do
-	cmp="$cmp ${k}=${hash[$k]}"
+        cmp="$cmp ${k}=${hash[$k]}"
     done
     cmp=$(echo "$cmp" | sed s/'^ *'//)
     if [[ "$cmp" != "$base" ]]; then
-    	echo "Hash does not contain expected arguments ($cmp vs $base)"
-    	cmdarg_dump >&2
-    	return 1
+        echo "Hash does not contain expected arguments ($cmp vs $base)"
+        cmdarg_dump >&2
+        return 1
     fi
     return $?
 }
@@ -112,9 +112,9 @@ function shunittest_hash_malformed
 
     function parse
     {
-	cmdarg_purge 
-	cmdarg 'x:{}' 'myhash' 'myhash'
-	cmdarg_parse "$@"
+        cmdarg_purge 
+        cmdarg 'x:{}' 'myhash' 'myhash'
+        cmdarg_parse "$@"
     }
 
     parse --myhash iamjustavalue && return 1

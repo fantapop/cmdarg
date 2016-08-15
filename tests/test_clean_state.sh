@@ -4,17 +4,17 @@ function shunittest_clean_state_usable()
 {
     function parse1()
     {
-	cmdarg 'a:' 'a' 'some arg'
-	cmdarg 'b' 'b' 'some arg'
-	cmdarg_parse "$@"
+        cmdarg 'a:' 'a' 'some arg'
+        cmdarg 'b' 'b' 'some arg'
+        cmdarg_parse "$@"
     }
 
     function parse2()
     {
-	cmdarg_purge
-	cmdarg 'c:' 'c' 'some arg'
-	cmdarg 'd' 'd' 'some arg'
-	cmdarg_parse "$@"
+        cmdarg_purge
+        cmdarg 'c:' 'c' 'some arg'
+        cmdarg 'd' 'd' 'some arg'
+        cmdarg_parse "$@"
     }
     parse1 -a 3 -b
     parse2 -c 5 -d
@@ -30,15 +30,15 @@ function shunittest_clean_state()
     # Tests that cmdarg_purge ensures an empty config state
     function parse1()
     {
-	cmdarg 'a:' 'a' 'some arg'
-	cmdarg 'b' 'b' 'some arg'
-	cmdarg_parse "$@"
+        cmdarg 'a:' 'a' 'some arg'
+        cmdarg 'b' 'b' 'some arg'
+        cmdarg_parse "$@"
     }
 
     function parse2()
     {
-	cmdarg_purge
-	cmdarg_parse "$@"
+        cmdarg_purge
+        cmdarg_parse "$@"
     }
 
     # This cleans the state from shunit
@@ -46,10 +46,10 @@ function shunittest_clean_state()
     parse1 -a 3 -b
     parse2
     if [[ "${cmdarg_cfg['a']}" == "" ]]; then
-	return 0
+        return 0
     else
-	cmdarg_dump
-	return 1
+        cmdarg_dump
+        return 1
     fi
 }
 
@@ -62,22 +62,22 @@ function shunittest_clean_state_subshells()
     cmdarg_purge
     function parse1()
     {
-	cmdarg 'a:' 'a' 'some arg'
-	cmdarg 'b' 'b' 'some arg'
-	cmdarg_parse "$@"
+        cmdarg 'a:' 'a' 'some arg'
+        cmdarg 'b' 'b' 'some arg'
+        cmdarg_parse "$@"
     }
 
     function parse2()
     {
-	cmdarg_parse "$@"
+        cmdarg_parse "$@"
     }
 
     (parse1 -a 3 -b)
     (parse2)
     if [[ "${cmdarg_cfg['a']}" == "" ]]; then
-	return 0
+        return 0
     else
-	cmdarg_dump
-	return 1
+        cmdarg_dump
+        return 1
     fi
 }
