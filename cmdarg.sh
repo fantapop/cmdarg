@@ -331,13 +331,14 @@ function cmdarg_parse
         else
             echo "Malformed argument: ${fullopt}" >&2
             echo "While parsing: $@" >&2
+            echo >&2
             ${cmdarg_helpers['usage']} >&2
             ${CMDARG_ERROR_BEHAVIOR} 1
         fi
 
         if [[ "$opt" == "h" ]] || [[ "$longopt" == "help" ]]; then
-            ${cmdarg_helpers['usage']} >&2
-            ${CMDARG_ERROR_BEHAVIOR} 1
+            ${cmdarg_helpers['usage']}
+            ${CMDARG_ERROR_BEHAVIOR} 2
         fi
 
         if [[ $is_equals_arg -eq 1 ]]; then
@@ -354,6 +355,7 @@ function cmdarg_parse
         failed=$((failed + $rc))
     else
         echo "Unknown argument or invalid value : -${opt} | --${longopt}" >&2
+        echo >&2
         ${cmdarg_helpers['usage']} >&2
         ${CMDARG_ERROR_BEHAVIOR} 1
     fi
