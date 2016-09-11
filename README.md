@@ -137,7 +137,7 @@ For every argument integer, boolean or string argument, a global associative arr
 
 For array and hash arguments, you must declare the hash or array beforehand for population:
 
-    declare -a myarray
+    declare -a myarray=()
     cmdarg 'a?[]' 'myarray' 'Some array of stuff'
     cmdarg_parse "$@"
     # Now you will be able to access ${myarray[0]}, ${myarray[1]}, etc. Similarly with hashes, just use declare -A and {}.
